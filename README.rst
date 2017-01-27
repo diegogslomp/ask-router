@@ -19,19 +19,6 @@ Print to a file::
 
     $ python ask-router.py <target_ip> show port status > output_file.txt
 
-Installation
-------------
-
-Copy from github::
-
-    $ git clone git@github.com:diegogslomp/ask-router.git
-    $ cd ask-router
-
-Motivation
-----------
-
-I made this to help diff config files from multiple targets, check port status from target, check routes, firmware version and so on.
-
 License
 -------
 
