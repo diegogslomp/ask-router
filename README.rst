@@ -5,7 +5,7 @@ A script to get telnet command output routers/switches layer 3. Tested on Entera
 
 ::
 
-    $ python ask-router.py <target_ip> show port status
+    $ python ask-router.py --u admin -p admin_pass <target_ip> show port status
     $ python ask-router.py <target_ip> show vlan portinfo > output.txt
     $ python ask-router.py <target_ip> router, configure, show running-config, exit, exit
 
