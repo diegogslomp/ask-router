@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 """A script to get telnet command output from Enterasys routers/switches L3.
 """
 
@@ -7,19 +6,28 @@ from __future__ import print_function
 from telnetlib import Telnet
 import argparse
 import sys
+import socket
 
 
 def get_telnet_output(ip, user, password, commands):
 
-    tn = Telnet(ip)
-    tn.read_until(b"Username:")
-    tn.write(user.encode('ascii') + b"\n")
-    tn.read_until(b"Password:")
-    tn.write(password.encode('ascii') + b"\n")
-    for command in commands:
-        tn.write(command.encode('ascii') + b"\n")
-    tn.write(b"exit\n")
-    output = tn.read_all().decode('ascii')
+    output = ''
+    try:
+        tn = Telnet(ip)
+        tn.read_until(b"Username:")
+        tn.write(user.encode('ascii') + b"\n")
+        tn.read_until(b"Password:")
+        tn.write(password.encode('ascii') + b"\n")
+        match_object = tn.expect([b"->",b"Username:"])[1]
+        if match_object.group(0) == b"Username:":
+            output = "ERRO: INVALID USER/PASSWORD"
+        else:
+            for command in commands:
+                tn.write(command.encode('ascii') + b"\n")
+            tn.write(b"exit\n")
+            output = tn.read_all().decode('ascii')
+    except socket.error, e:
+        output = 'ERRO: %s' % e
 
     return output
 
