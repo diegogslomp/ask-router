@@ -26,7 +26,7 @@ def get_telnet_output(ip, user, password, commands):
                 tn.write(command.encode('ascii') + b"\n")
             tn.write(b"exit\n")
             output = tn.read_all().decode('ascii')
-    except socket.error, e:
+    except socket.error as e:
         output = 'ERRO: %s' % e
 
     return output
