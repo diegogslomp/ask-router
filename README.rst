@@ -1,7 +1,7 @@
 ask-router
 ==========
 
-A script to get telnet command output routers/switches layer 3. Tested on Enterasys S8, G3 and A4 series. 
+Retrieves telnet command output from routers/switches. Tested on Enterasys S8, G3 and A4 series. 
 
 ::
 
@@ -10,7 +10,3 @@ A script to get telnet command output routers/switches layer 3. Tested on Entera
     $ python ask-router.py <target_ip> router, show running-config, exit
     $ python ask-router.py <target_ip> -F ';' 'router; enable; show interface; exit; exit'
 
-License
--------
-
-MIT
