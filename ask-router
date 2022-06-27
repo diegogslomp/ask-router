@@ -22,7 +22,7 @@ def run_telnet(ip: str, user: str, password: str, commands: list) -> str:
             return tn.read_all().decode("ascii")
 
 
-def main(arguments):
+def main(arguments: list) -> None:
     parser = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
     )
