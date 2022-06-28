@@ -40,16 +40,15 @@ def main(arguments: list) -> None:
     )
 
     args = parser.parse_args(arguments)
-    commands=" ".join(args.commands).split(args.field_separator)
-    
-    print(
-        run_telnet(
-            ip=args.ip,
-            user=args.user,
-            password=args.password,
-            commands=commands,
-        )
+    commands = " ".join(args.commands).split(args.field_separator)
+
+    output = run_telnet(
+        ip=args.ip,
+        user=args.user,
+        password=args.password,
+        commands=commands,
     )
+    print(output)
 
 
 if __name__ == "__main__":
