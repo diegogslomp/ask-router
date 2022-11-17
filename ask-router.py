@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """A script to run telnet commands on Enterasys routers/L3 switches
 """
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
