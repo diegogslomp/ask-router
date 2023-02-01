@@ -3,6 +3,7 @@
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
 from telnetlib import Telnet
 import sys
+import os
 
 
 def run_telnet(ip: str, user: str, password: str, commands: list) -> str:
@@ -20,13 +21,14 @@ def run_telnet(ip: str, user: str, password: str, commands: list) -> str:
         return tn.read_all().decode("ascii")
 
 
-def main(arguments: list) -> None:
+def parse_args(arguments: list[str]) -> list[str]:
     parser = ArgumentParser(
         description=__doc__, formatter_class=RawDescriptionHelpFormatter
     )
-
-    parser.add_argument("-u", "--user", help="Telnet user", default="root")
-    parser.add_argument("-p", "--password", help="Telnet password", default="s3cr3t")
+    user = os.getenv("TELNET_USER", "root")
+    password = os.getenv("TELNET_PASS", "s3cr3t")
+    parser.add_argument("-u", "--user", help="Telnet user", default=user)
+    parser.add_argument("-p", "--password", help="Telnet password", default=password)
     parser.add_argument(
         "-F", "--field-separator", help="Telnet commands separator", default=","
     )
@@ -36,10 +38,12 @@ def main(arguments: list) -> None:
         nargs="+",
         help="Telnet commands separated with comma or custom --field-separator",
     )
+    return parser.parse_args(arguments)
 
-    args = parser.parse_args(arguments)
+
+def main(arguments: list) -> None:
+    args = parse_args(arguments)
     commands = " ".join(args.commands).split(args.field_separator)
-
     output = run_telnet(
         ip=args.ip,
         user=args.user,
