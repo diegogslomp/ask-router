@@ -25,10 +25,8 @@ def parse_args(arguments: list[str]) -> list[str]:
     parser = ArgumentParser(
         description=__doc__, formatter_class=RawDescriptionHelpFormatter
     )
-    user = os.getenv("TELNET_USER", "root")
-    password = os.getenv("TELNET_PASS", "s3cr3t")
-    parser.add_argument("-u", "--user", help="Telnet user", default=user)
-    parser.add_argument("-p", "--password", help="Telnet password", default=password)
+    parser.add_argument("-u", "--user", help="Telnet user", default="")
+    parser.add_argument("-p", "--password", help="Telnet password", default="")
     parser.add_argument(
         "-F", "--field-separator", help="Telnet commands separator", default=","
     )
@@ -43,11 +41,17 @@ def parse_args(arguments: list[str]) -> list[str]:
 
 def main(arguments: list) -> None:
     args = parse_args(arguments)
+    user = args.user
+    password = args.password
+    if not user:
+        user = os.environ["TELNET_USER"]
+    if not password:
+        password = os.environ["TELNET_PASS"]
     commands = " ".join(args.commands).split(args.field_separator)
     output = run_telnet(
         ip=args.ip,
-        user=args.user,
-        password=args.password,
+        user=user,
+        password=password,
         commands=commands,
     )
     print(output)
