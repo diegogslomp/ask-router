@@ -1,6 +1,6 @@
 """A script to run telnet commands on Enterasys routers/L3 switches
 """
-from argparse import ArgumentParser, RawDescriptionHelpFormatter
+from argparse import ArgumentParser, RawDescriptionHelpFormatter, Namespace
 from telnetlib import Telnet
 import sys
 import os
@@ -21,7 +21,7 @@ def run_telnet(ip: str, user: str, password: str, commands: list) -> str:
         return tn.read_all().decode("ascii")
 
 
-def parse_args(arguments: list[str]) -> list[str]:
+def parse_args(arguments: list[str]) -> Namespace:
     parser = ArgumentParser(
         description=__doc__, formatter_class=RawDescriptionHelpFormatter
     )
@@ -39,7 +39,7 @@ def parse_args(arguments: list[str]) -> list[str]:
     return parser.parse_args(arguments)
 
 
-def main(arguments: list) -> None:
+def main(arguments: list[str]) -> None:
     args = parse_args(arguments)
     user = args.user
     password = args.password
